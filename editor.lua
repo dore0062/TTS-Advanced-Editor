@@ -323,28 +323,19 @@ end
 end
 
 function setTransform(_, t, id)
-local cpos = lastobj.getPosition()
-if id == "xt" then
-  lastobj.setPosition({t, cpos.y, cpos.z})
-elseif id == "yt" then
-  lastobj.setPosition({cpos.x, t, cpos.z})
-elseif id == "zt" then
-  lastobj.setPosition({cpos.x, cpos.y, t})
-end
+local axis = id:sub(1, 1)
+lastobj.setPosition(lastobj.getPosition():setAt(axis, t))
 end
 ---------------
 -- Utility
 ---------------
 function countbag(bag) -- Returns # of items in a bag and false if none
-local i = 0
-if bag.getObjects()[1] then
-  for x, b in pairs(bag.getObjects()) do
-    i = i + 1
-  end
+local count = #bag.getObjects()
+if count > 0
+  return count
 else
-  return false
+    return false
 end
-return i
 end
 
 function checkAttributes(obj) -- Returns a table of the objects attributes
